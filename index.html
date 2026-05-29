@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Card - English Lesson</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .ipa-font {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 300ms;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen pb-12">
+
+    <!-- Header -->
+	<header class="bg-blue-600 text-white py-12 px-4 text-center shadow-lg mb-8">
+        <div class="max-w-4xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <h1 class="text-3xl font-bold tracking-tight text-center sm:text-left">
+                 Report Card 
+            </h1>
+            <div class="flex gap-3">
+                    <button id="btn-ipa" onclick="toggleIPA()" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors flex items-center justify-center w-[140px]">
+                        <i class="fas fa-eye-slash mr-2"></i>Tắt Phiên âm
+                    </button>
+                    <button id="btn-trans" onclick="toggleTrans()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors flex items-center justify-center w-[140px]">
+                        <i class="fas fa-eye-slash mr-2"></i>Tắt Dịch nghĩa
+                    </button>
+             </div>
+			
+        </div>
+		<h1 class="text-xl font-bold text-gray-800">One Story A Day!</h1> <br>
+			<h1 class="text-xl font-bold text-gray-800">Designed by Tin Cuber</h1> <br>
+			<h1 class="text-xl font-bold text-gray-800">Source: One Story A Day For Beginners – Book 1 (DC Canada Education Publishing, 2018)</h1> <br>
+			<img src="Report_Card.bmp" alt="Fruit Or Vegetables" class="w-full object-cover" onerror="this.src='Report_Card.png'"> <br>
+			<h2 class="text-xl font-bold text-gray-800">Next</h2> <br>
+			<img src="Report_Card2.bmp" alt="Fruit Or Vegetables 2" class="w-full object-cover" onerror="this.src='Report_Card2.png'"> <br>
+			<h2 class="text-xl font-bold text-gray-800">Audio</h2> <br>
+		<audio controls src="Report_Card.mp3" type="audio/m4a"/> <br>
+    </header>
+	
+    <!-- Main Content -->
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        
+        <!-- Story Section -->
+        <div class="mb-10">
+            <h2 class="text-xl font-bold text-slate-700 mb-4 border-b-2 border-blue-500 inline-block pb-1">Part 1: The Story</h2>
+            <div id="story-container" class="space-y-4">
+                <!-- Story items will be injected here by JS -->
+            </div>
+        </div>
+
+        <!-- Q&A Section -->
+        <div>
+            <h2 class="text-xl font-bold text-slate-700 mb-4 border-b-2 border-emerald-500 inline-block pb-1">Part 2: Questions & Answers</h2>
+            <div id="qa-container" class="space-y-6">
+                <!-- Q&A items will be injected here by JS -->
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Data for the story
+        const storyData = [
+            {
+                eng: "Pat stopped working and came out of his office.",
+                ipa: "/pæt stɒpt ˈwɜːrkɪŋ ænd keɪm aʊt əv hɪz ˈɒfɪs/",
+                vie: "Pat ngừng làm việc và bước ra khỏi văn phòng của mình."
+            },
+            {
+                eng: "He wanted to see what others were doing in the next room.",
+                ipa: "/hiː ˈwɒntɪd tə siː wɒt ˈʌðərz wɜːr ˈduːɪŋ ɪn ðə nekst ruːm/",
+                vie: "Anh ấy muốn xem những người khác đang làm gì ở phòng bên cạnh."
+            },
+            {
+                eng: "He told them that his 95-year-old mother still kept his kindergarten report card.",
+                ipa: "/hiː təʊld ðem ðæt hɪz ˌnaɪnti faɪv jɪə əʊld ˈmʌðər stɪl kept hɪz ˈkɪndərˌɡɑːrtn rɪˈpɔːrt kɑːrd/",
+                vie: "Anh ấy kể với họ rằng mẹ 95 tuổi của mình vẫn còn giữ học bạ mẫu giáo của anh ấy."
+            },
+            {
+                eng: "“What did the report card say?” asked one of his friends.",
+                ipa: "/wɒt dɪd ðə rɪˈpɔːrt kɑːrd seɪ æskt wʌn əv hɪz frendz/",
+                vie: "“Học bạ ghi gì vậy?” một người bạn của anh ấy hỏi."
+            },
+            {
+                eng: "“Stop visiting your neighbours!” said Pat.",
+                ipa: "/stɒp ˈvɪzɪtɪŋ jɔːr ˈneɪbərz sed pæt/",
+                vie: "“Đừng sang nhà hàng xóm nữa!” Pat nói."
+            },
+            {
+                eng: "Hello! What are you working on today?",
+                ipa: "/həˈləʊ wɒt ɑːr juː ˈwɜːrkɪŋ ɒn təˈdeɪ/",
+                vie: "Xin chào! Hôm nay bạn đang làm gì vậy?"
+            }
+        ];
+
+        // Data for Questions and Answers
+        const qaData = [
+            {
+                q: { eng: "What did Pat stop doing?", ipa: "/wɒt dɪd pæt stɒp ˈduːɪŋ/", vie: "Pat đã ngừng làm gì?" },
+                a: { eng: "He stopped working.", ipa: "/hiː stɒpt ˈwɜːrkɪŋ/", vie: "Anh ấy ngừng làm việc." }
+            },
+            {
+                q: { eng: "Where did Pat go?", ipa: "/weər dɪd pæt ɡəʊ/", vie: "Pat đã đi đâu?" },
+                a: { eng: "He came out of his office.", ipa: "/hiː keɪm aʊt əv hɪz ˈɒfɪs/", vie: "Anh ấy bước ra khỏi văn phòng." }
+            },
+            {
+                q: { eng: "Why did Pat go to the next room?", ipa: "/waɪ dɪd pæt ɡəʊ tə ðə nekst ruːm/", vie: "Tại sao Pat đi sang phòng bên cạnh?" },
+                a: { eng: "He wanted to see what others were doing.", ipa: "/hiː ˈwɒntɪd tə siː wɒt ˈʌðərz wɜːr ˈduːɪŋ/", vie: "Anh ấy muốn xem những người khác đang làm gì." }
+            },
+            {
+                q: { eng: "How old was Pat’s mother?", ipa: "/haʊ əʊld wɒz pæts ˈmʌðər/", vie: "Mẹ của Pat bao nhiêu tuổi?" },
+                a: { eng: "She was 95 years old.", ipa: "/ʃiː wɒz ˌnaɪnti faɪv jɪərz əʊld/", vie: "Bà ấy 95 tuổi." }
+            },
+            {
+                q: { eng: "What did Pat’s mother keep?", ipa: "/wɒt dɪd pæts ˈmʌðər kiːp/", vie: "Mẹ của Pat giữ cái gì?" },
+                a: { eng: "She kept his kindergarten report card.", ipa: "/ʃiː kept hɪz ˈkɪndərˌɡɑːrtn rɪˈpɔːrt kɑːrd/", vie: "Bà ấy giữ học bạ mẫu giáo của anh ấy." }
+            },
+            {
+                q: { eng: "Who asked about the report card?", ipa: "/huː æskt əˈbaʊt ðə rɪˈpɔːrt kɑːrd/", vie: "Ai đã hỏi về học bạ?" },
+                a: { eng: "One of Pat’s friends asked.", ipa: "/wʌn əv pæts frendz æskt/", vie: "Một người bạn của Pat đã hỏi." }
+            },
+            {
+                q: { eng: "What did the report card say?", ipa: "/wɒt dɪd ðə rɪˈpɔːrt kɑːrd seɪ/", vie: "Học bạ ghi gì?" },
+                a: { eng: "It said, “Stop visiting your neighbours!”", ipa: "/ɪt sed stɒp ˈvɪzɪtɪŋ jɔːr ˈneɪbərz/", vie: "Nó ghi: “Đừng sang nhà hàng xóm nữa!”" }
+            },
+            {
+                q: { eng: "Was the story funny?", ipa: "/wɒz ðə ˈstɔːri ˈfʌni/", vie: "Câu chuyện có vui không?" },
+                a: { eng: "Yes, it was funny.", ipa: "/jes ɪt wɒz ˈfʌni/", vie: "Có, nó rất vui." }
+            },
+            {
+                q: { eng: "What was the woman doing in the picture?", ipa: "/wɒt wɒz ðə ˈwʊmən ˈduːɪŋ ɪn ðə ˈpɪktʃər/", vie: "Người phụ nữ trong hình đang làm gì?" },
+                a: { eng: "She was reading some papers.", ipa: "/ʃiː wɒz ˈriːdɪŋ sʌm ˈpeɪpərz/", vie: "Cô ấy đang đọc vài tờ giấy." }
+            },
+            {
+                q: { eng: "What did the man say to the woman?", ipa: "/wɒt dɪd ðə mæn seɪ tə ðə ˈwʊmən/", vie: "Người đàn ông đã nói gì với người phụ nữ?" },
+                a: { eng: "He said, “Hello! What are you working on today?”", ipa: "/hiː sed həˈləʊ wɒt ɑːr juː ˈwɜːrkɪŋ ɒn təˈdeɪ/", vie: "Anh ấy nói: “Xin chào! Hôm nay bạn đang làm gì vậy?”" }
+            }
+        ];
+
+        // State for toggles
+        let isIpaVisible = true;
+        let isTransVisible = true;
+
+        // Function to safely escape quotes in strings for HTML attributes
+        const escapeQuote = (str) => str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+        // Create HTML for a single block of text (English + Audio + IPA + Translation)
+        function createTextBlock(item, index, prefix = '') {
+            return `
+                <div class="flex flex-col gap-2 relative">
+                    <div class="flex items-start justify-between gap-4">
+                        <p class="text-lg font-semibold text-slate-800 leading-snug">
+                            ${prefix ? `<span class="text-slate-400 font-normal mr-1">${prefix}</span>` : ''} 
+                            ${item.eng}
+                        </p>
+                        <button onclick="speakText('${escapeQuote(item.eng)}')" class="shrink-0 w-10 h-10 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1" title="Nghe câu này">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                    </div>
+                    <div class="ipa-container ${isIpaVisible ? '' : 'hidden'} text-purple-700 font-medium ipa-font text-[15px] bg-purple-50 p-2 rounded border border-purple-100 w-fit">
+                        ${item.ipa}
+                    </div>
+                    <div class="trans-container ${isTransVisible ? '' : 'hidden'} text-slate-600 italic">
+                        ${item.vie}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render functions
+        function renderStory() {
+            const container = document.getElementById('story-container');
+            let html = '';
+            storyData.forEach((item, index) => {
+                html += `
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-5 hover:shadow-md transition-shadow">
+                        <div class="absolute -ml-10 mt-1 font-bold text-slate-300 text-xl hidden sm:block">${index + 1}.</div>
+                        ${createTextBlock(item, index)}
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderQA() {
+            const container = document.getElementById('qa-container');
+            let html = '';
+            qaData.forEach((item, index) => {
+                html += `
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-emerald-400"></div>
+                        <div class="absolute -ml-12 mt-1 font-bold text-slate-300 text-xl hidden sm:block">${index + 1}.</div>
+                        
+                        <!-- Question -->
+                        <div class="mb-5 pb-5 border-b border-dashed border-slate-200">
+                            ${createTextBlock(item.q, index, 'Q:')}
+                        </div>
+                        
+                        <!-- Answer -->
+                        <div class="">
+                            ${createTextBlock(item.a, index, 'A:')}
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // Toggle functionalities
+        function toggleIPA() {
+            isIpaVisible = !isIpaVisible;
+            const elements = document.querySelectorAll('.ipa-container');
+            elements.forEach(el => {
+                if (isIpaVisible) el.classList.remove('hidden');
+                else el.classList.add('hidden');
+            });
+            
+            const btn = document.getElementById('btn-ipa');
+            if (isIpaVisible) {
+                btn.innerHTML = '<i class="fas fa-eye-slash mr-2"></i>Tắt Phiên âm';
+                btn.className = 'px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors flex items-center justify-center w-[140px]';
+            } else {
+                btn.innerHTML = '<i class="fas fa-eye mr-2"></i>Mở Phiên âm';
+                btn.className = 'px-4 py-2 bg-slate-500 hover:bg-slate-600 text-white text-sm font-medium rounded-lg shadow-sm transition-colors flex items-center justify-center w-[140px]';
+            }
+        }
+
+        function toggleTrans() {
+            isTransVisible = !isTransVisible;
+            const elements = document.querySelectorAll('.trans-container');
+            elements.forEach(el => {
+                if (isTransVisible) el.classList.remove('hidden');
+                else el.classList.add('hidden');
+            });
+            
+            const btn = document.getElementById('btn-trans');
+            if (isTransVisible) {
+                btn.innerHTML = '<i class="fas fa-eye-slash mr-2"></i>Tắt Dịch nghĩa';
+                btn.className = 'px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors flex items-center justify-center w-[140px]';
+            } else {
+                btn.innerHTML = '<i class="fas fa-eye mr-2"></i>Mở Dịch nghĩa';
+                btn.className = 'px-4 py-2 bg-slate-500 hover:bg-slate-600 text-white text-sm font-medium rounded-lg shadow-sm transition-colors flex items-center justify-center w-[140px]';
+            }
+        }
+
+        // Text-to-Speech Functionality
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                // Cancel any ongoing speech
+                window.speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US'; // Default to US English
+                utterance.rate = 0.9;     // Slightly slower for better learning/listening
+                utterance.pitch = 1.0;
+
+                // Try to find a good English voice if available
+                const voices = window.speechSynthesis.getVoices();
+                const englishVoice = voices.find(voice => voice.lang.includes('en-US') || voice.lang.includes('en-GB'));
+                if (englishVoice) {
+                    utterance.voice = englishVoice;
+                }
+
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("Trình duyệt của bạn không hỗ trợ tính năng đọc văn bản (Text-to-Speech). Vui lòng sử dụng Chrome, Edge hoặc Safari.");
+            }
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            renderStory();
+            renderQA();
+            
+            // Trigger voice loading in advance
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.getVoices();
+                // Some browsers need a onvoiceschanged event
+                window.speechSynthesis.onvoiceschanged = function() {
+                    window.speechSynthesis.getVoices();
+                };
+            }
+        });
+
+    </script>
+</body>
+</html>
